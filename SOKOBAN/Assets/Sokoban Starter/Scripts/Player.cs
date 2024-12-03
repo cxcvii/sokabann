@@ -27,10 +27,15 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2Int GetInputDirection()
     {
-        if (Input.GetKeyDown(KeyCode.W)) return new Vector2Int(0, -1);
-        if (Input.GetKeyDown(KeyCode.S)) return new Vector2Int(0, 1);
-        if (Input.GetKeyDown(KeyCode.A)) return new Vector2Int(-1, 0);
-        if (Input.GetKeyDown(KeyCode.D)) return new Vector2Int(1, 0);
+        if (Input.GetKeyDown(KeyCode.W)) 
+            return new Vector2Int(0, -1);
+        if (Input.GetKeyDown(KeyCode.S)) 
+            return new Vector2Int(0, 1);
+        if (Input.GetKeyDown(KeyCode.A)) 
+            return new Vector2Int(-1, 0);
+        if (Input.GetKeyDown(KeyCode.D)) 
+            return new Vector2Int(1, 0);
+
         return Vector2Int.zero;
     }
 
@@ -101,7 +106,6 @@ public class PlayerMovement : MonoBehaviour
             if (blockAtTarget == null || blockAtTarget.CompareTag("Player"))
             {
                 sticky.gridPosition = stickyTargetPosition;
-                Debug.Log($"Sticky moved to {stickyTargetPosition}");
                 return true;
             }
             else if (blockAtTarget.CompareTag("Smooth"))
@@ -114,7 +118,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        Debug.Log("Sticky movement blocked.");
         return false;
     }
 
@@ -123,21 +126,9 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2Int targetPosition = movingObject.gridPosition + direction;
 
-        if (!IsWithinBounds(targetPosition))
+        if (!IsWithinBounds(targetPosition) || IsWallAtPosition(targetPosition) || IsClingyAtPosition(targetPosition))
         {
-            Debug.Log("Target position is out of bounds.");
-            return;
-        }
-
-        if (IsWallAtPosition(targetPosition))
-        {
-            Debug.Log("Movement blocked by a wall.");
-            return;
-        }
-
-        if (IsClingyAtPosition(targetPosition))
-        {
-            Debug.Log("Movement blocked by Clingy block.");
+            Debug.Log("NO");
             return;
         }
 
@@ -171,12 +162,8 @@ public class PlayerMovement : MonoBehaviour
                 (blockAtOpposite == null || !blockAtOpposite.CompareTag("Player")))
             {
                 clingy.gridPosition = clingyTargetPosition;
-                Debug.Log($"Clingy moved to {clingyTargetPosition}");
             }
-            else
-            {
-                Debug.Log("Clingy movement blocked by a non-player object or player in opposite direction.");
-            }
+            
         }
     }
 
