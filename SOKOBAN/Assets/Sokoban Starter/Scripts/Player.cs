@@ -45,9 +45,8 @@ public class PlayerMovement : MonoBehaviour
 
         List<GridObject> stickyBlocks = GetAdjacentStickyBlocks(playerPosition);
         foreach (GridObject sticky in stickyBlocks)
-        {
             TryMoveSticky(sticky, direction);
-        }
+        
     }
 
     private void MoveClingyBlocks(Vector2Int direction)
@@ -56,9 +55,8 @@ public class PlayerMovement : MonoBehaviour
 
         List<GridObject> clingyBlocks = GetAdjacentClingyBlocks(playerPosition);
         foreach (GridObject clingy in clingyBlocks)
-        {
             TryMoveClingy(clingy, direction);
-        }
+        
     }
 
     private List<GridObject> GetAdjacentStickyBlocks(Vector2Int position)
